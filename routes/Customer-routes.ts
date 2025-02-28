@@ -1,6 +1,6 @@
 import express from "express";
 import Customer from "../model/Customer";
-import {CustomerAdd,getAllCustomers} from "../database/Customer-data-store";
+import {CustomerAdd,getAllCustomers,deleteCustomer} from "../database/Customer-data-store";
 
 const router = express.Router();
 
@@ -22,6 +22,16 @@ router.get("/get",async (req,res)=>{
         res.json(customers);
     }catch (err){
         console.log("error getting customers",err);
+    }
+})
+
+router.delete("/delete/:email",async (req,res)=>{
+    const emailAddress :string = req.params.email;
+    try {
+        const customerDeleted = await deleteCustomer(emailAddress);
+        res.json(customerDeleted);
+    }catch (err){
+        console.log(err);
     }
 })
 

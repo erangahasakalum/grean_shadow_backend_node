@@ -26,3 +26,22 @@ export async function getAllCustomers(){
         console.log(err);
     }
 }
+
+export async function deleteCustomer(emailAddress: string){
+    try {
+        const findCustomer = await prisma.customer.findUnique({
+            where:{email:emailAddress}
+        });
+        if(!findCustomer){
+            console.log("customer not found");
+            return null;
+        }
+        const deletedCustomer = await prisma.customer.delete({
+            where:{email:emailAddress}
+        })
+        console.log("Customer deleted:", emailAddress);
+        return deletedCustomer;
+    }catch (err){
+        console.log(err);
+    }
+}
